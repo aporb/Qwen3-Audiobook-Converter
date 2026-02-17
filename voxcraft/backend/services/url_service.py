@@ -307,16 +307,39 @@ class URLFetcher:
 
     def _markdown_to_text(self, md: str) -> str:
         text = md
+        # Split adjacent markdown links onto separate lines first
+        text = re.sub(r"\)\s*\[", ")\n[", text)
+        # Remove images, keep link text
         text = re.sub(r"!\[[^\]]*\]\([^\)]*\)", "", text)
         text = re.sub(r"\[([^\]]+)\]\([^\)]+\)", r"\1", text)
+        # Remove markdown markers
         text = re.sub(r"^#{1,6}\s*", "", text, flags=re.MULTILINE)
         text = re.sub(r"^\s*[-*+]\s+", "- ", text, flags=re.MULTILINE)
         text = re.sub(r"`{1,3}", "", text)
-        return text
+        text = text.replace("**", "")
+        text = text.replace("__", "")
+        # Drop markdown table rows/separators (too noisy for TTS)
+        lines = []
+        for line in text.splitlines():
+            if line.count("|") >= 3:
+                continue
+            if re.match(r"^\s*\|.*\|\s*$", line):
+                continue
+            if re.match(r"^\s*[:\-\|\s]+$", line):
+                continue
+            lines.append(line)
+        return "\n".join(lines)
 
     def _clean_text(self, text: str) -> str:
         text = text or ""
         text = text.replace("\r", "\n")
+        # Remove common leading nav-link blobs in mirrored markdown pages
+        text = re.sub(
+            r"^[A-Za-z][A-Za-z0-9+\-]*(?:\s+[A-Za-z][A-Za-z0-9+\-]*){4,}\s{2,}",
+            "",
+            text,
+            count=1,
+        )
         text = re.sub(r"[ \t]{2,}", " ", text)
         text = re.sub(r"\n{3,}", "\n\n", text)
 
@@ -327,6 +350,7 @@ class URLFetcher:
             "Follow us",
         )
         lines = []
+        seen_real_paragraph = False
         for line in text.splitlines():
             stripped = line.strip()
             if not stripped:
@@ -334,6 +358,25 @@ class URLFetcher:
                 continue
             if any(stripped.lower().startswith(p.lower()) for p in bad_prefixes):
                 continue
+
+            tokens = stripped.split()
+            punct_ratio = sum(1 for c in stripped if c in ".,;:!?") / max(len(stripped), 1)
+
+            # Drop short nav/link lines at the beginning before real paragraphs start
+            if not seen_real_paragraph:
+                if len(stripped) < 45 and punct_ratio < 0.01 and len(tokens) <= 4:
+                    continue
+                if len(stripped) >= 60 or punct_ratio >= 0.01:
+                    seen_real_paragraph = True
+
+            # Filter nav-like lines made of many short title-case/all-caps tokens
+            if len(tokens) >= 5 and all(len(t) <= 16 for t in tokens):
+                upper_ratio = sum(1 for t in tokens if t.isupper()) / len(tokens)
+                title_ratio = sum(1 for t in tokens if t[:1].isupper()) / len(tokens)
+                if (upper_ratio > 0.4 and punct_ratio < 0.01) or (
+                    title_ratio > 0.8 and punct_ratio < 0.01 and len(stripped) <= 140
+                ):
+                    continue
             lines.append(stripped)
 
         cleaned = "\n".join(lines)
