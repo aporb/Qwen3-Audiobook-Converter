@@ -83,7 +83,6 @@ Qwen3-Audiobook-Converter/
 │
 ├── 📄 docs/                 # Documentation
 │   ├── QUICKSTART.md        # Quick start guide
-│   ├── QWEN3_GUIDE.md       # Qwen3 converter docs
 │   └── QWEN3_GUIDE.md       # Qwen3 converter guide
 │
 ├── ⚙️  config/              # Configuration files
@@ -225,7 +224,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/WhiskeyCoder/Qwen3-Audiobook-Converter/issues)
+- **Issues**: [GitHub Issues](https://github.com/aporb/Qwen3-Audiobook-Converter/issues)
 - **Discussions**: Open a discussion on GitHub
 
 ---

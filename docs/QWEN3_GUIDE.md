@@ -222,5 +222,5 @@ python src/audiobook_converter.py
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/WhiskeyCoder/Qwen3-Audiobook-Converter/issues)
+- **Issues**: [GitHub Issues](https://github.com/aporb/Qwen3-Audiobook-Converter/issues)
 - **Documentation**: See main README.md for overview
