@@ -1,0 +1,318 @@
+# =============================================================================
+# PYTHON
+# =============================================================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# =============================================================================
+# VIRTUAL ENVIRONMENTS
+# =============================================================================
+
+# Virtual environment directories
+.venv/
+venv/
+ENV/
+env/
+
+# =============================================================================
+# MACOS
+# =============================================================================
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# =============================================================================
+# AUDIOBOOK CONVERTER SPECIFIC
+# =============================================================================
+
+# Output directories (user-generated content)
+audiobooks/*.mp3
+audiobooks/*.wav
+audiobooks/*.m4a
+audiobooks/*.m4b
+!audiobooks/output_here.txt
+
+# Input books (user content)
+book_to_convert/*.pdf
+book_to_convert/*.epub
+book_to_convert/*.txt
+book_to_convert/*.docx
+book_to_convert/*.doc
+!book_to_convert/input_here.txt
+
+# Cache directories
+cache/
+cache/audio_chunks/
+
+# Temporary processing files
+chunks/*.wav
+chunks/*.mp3
+temp/
+
+# Progress tracking files
+*.progress.json
+.progress.json
+
+# Logs
+logs/*.log
+
+# Sample outputs
+sample/*.wav
+sample/*.mp3
+!sample/sample_amyn_short.wav
+!sample/sample_amyn_short_transcript.txt
+
+# TTS model caches
+*.cache
+models/
+
+# Large data files
+data/*.wav
+data/*.mp3
+*.m4b
+
+# =============================================================================
+# GO (for tts-reader)
+# =============================================================================
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+
+# Compiled binary (tts-reader)
+tts-reader/tts-reader
+
+# =============================================================================
+# NODE.JS (for voxcraft)
+# =============================================================================
+
+# Dependencies
+node_modules/
+
+# Production build
+/build
+/dist
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =============================================================================
+# DOCKER
+# =============================================================================
+
+# Environment files that might contain secrets
+.env
+docker-compose.override.yml
+
+# =============================================================================
+# CLAUDE / AI ASSISTANTS
+# =============================================================================
+
+.claude/
+.claude/settings.local.json
+
+# =============================================================================
+# TEMPORARY FILES
+# =============================================================================
+
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# =============================================================================
+# PROJECT SPECIFIC - KEEP THESE
+# =============================================================================
+
+# Uncomment to ignore all sample outputs
+# sample/*.wav
+# sample/*.mp3
