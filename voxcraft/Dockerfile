@@ -24,7 +24,7 @@ RUN pip install --no-cache-dir -r backend/requirements.txt
 
 # Copy backend code
 COPY voxcraft/backend/ backend/
-COPY src/mlx_tts_engine.py .
+COPY src/mlx_tts_engine.py src/mlx_tts_engine.py
 
 # Copy built frontend as static files
 COPY --from=frontend-build /app/frontend/dist static/
