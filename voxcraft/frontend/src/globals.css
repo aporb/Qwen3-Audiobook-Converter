@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --obsidian: #09090b;
+  --surface: #18181b;
+  --surface-alt: #27272a;
+  --accent: rgba(255, 255, 255, 0.9);
+  --accent-muted: rgba(255, 255, 255, 0.5);
+  --accent-subtle: rgba(255, 255, 255, 0.1);
+  --accent-glow: rgba(255, 255, 255, 0.06);
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
+  --glass-border: rgba(255, 255, 255, 0.07);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+}
+
+/* Glass Panel base */
+@layer components {
+  .glass-panel {
+    @apply rounded-xl border;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-color: var(--glass-border);
+  }
+
+  .glass-panel-solid {
+    @apply rounded-xl border;
+    background: var(--surface);
+    border-color: var(--glass-border);
+  }
+}
+
+/* Landing page gradient mesh */
+.landing-gradient-mesh {
+  background: var(--obsidian);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+  animation: meshShift 12s ease-in-out infinite alternate;
+}
+
+@keyframes meshShift {
+  0% {
+    background-position: 0% 0%, 100% 0%, 50% 100%;
+  }
+  100% {
+    background-position: 20% 30%, 80% 60%, 40% 70%;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Selection */
+::selection {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+}
+
+/* Smooth focus ring */
+*:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.4);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Tiptap prose overrides for dark theme */
+.ProseMirror {
+  min-height: 300px;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: var(--text-muted);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.ProseMirror mark {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* Responsive — hide sidebar on small screens */
+@media (max-width: 768px) {
+  aside {
+    display: none;
+  }
+
+  main {
+    padding: 1rem !important;
+  }
+
+  header nav {
+    gap: 0.25rem;
+  }
+
+  header nav a {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  .glass-panel,
+  .glass-panel-solid {
+    border-radius: 0.5rem;
+  }
+}

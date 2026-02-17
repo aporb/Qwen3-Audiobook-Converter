@@ -1,0 +1,1879 @@
+/* ==========================================================================
+   VoxCraft — Premium TTS & Audiobook Converter
+   Gradio 5.50 Custom Stylesheet
+   ==========================================================================
+
+   Palette:
+     Background base .... #0a0a14
+     Background surface . #111122
+     Surface card ....... rgba(139, 92, 246, 0.04)
+     Surface hover ...... rgba(139, 92, 246, 0.08)
+     Border default ..... rgba(255, 255, 255, 0.06)
+     Border hover ....... rgba(139, 92, 246, 0.3)
+     Text primary ....... #e8e6f0
+     Text secondary ..... #8b85a8
+     Text muted ......... #5a5478
+     Accent primary ..... #6366f1
+     Accent secondary ... #8b5cf6
+     Success ............ #10b981
+     Info ............... #3b82f6
+     Warning ............ #f59e0b
+     Error .............. #ef4444
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. KEYFRAME ANIMATIONS
+   ========================================================================== */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 12px rgba(99, 102, 241, 0.15); }
+    50%      { box-shadow: 0 0 24px rgba(99, 102, 241, 0.3); }
+}
+
+
+/* ==========================================================================
+   2. GLOBAL / CONTAINER
+   ========================================================================== */
+
+:root {
+    color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    background: #0a0a14 !important;
+    color: #e8e6f0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                 Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+}
+
+.gradio-container {
+    background: #0a0a14 !important;
+    color: #e8e6f0 !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                 Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif !important;
+    animation: fadeIn 0.4s ease;
+}
+
+.dark .gradio-container,
+.gradio-container.dark {
+    background: #0a0a14 !important;
+    color: #e8e6f0 !important;
+}
+
+/* Remove Gradio footer */
+.gradio-container footer {
+    display: none !important;
+}
+
+footer {
+    display: none !important;
+}
+
+
+/* ==========================================================================
+   3. HEADER (#voxcraft-header)
+   ========================================================================== */
+
+#voxcraft-header {
+    width: 100%;
+    background: linear-gradient(135deg, #312e81, #4f46e5, #6366f1) !important;
+    padding: 2rem 2.5rem;
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.2);
+    border: none !important;
+}
+
+#voxcraft-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    color: #ffffff !important;
+    line-height: 1.3;
+}
+
+#voxcraft-header p {
+    opacity: 0.85;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    color: #ffffff !important;
+}
+
+
+/* ==========================================================================
+   4. STATUS BADGES (#status-area)
+   ========================================================================== */
+
+#status-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    line-height: 1.6;
+}
+
+.badge-active {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-info {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.badge-inactive {
+    background: rgba(255, 255, 255, 0.05);
+    color: #8b85a8;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+/* ==========================================================================
+   5. SIDEBAR
+   ========================================================================== */
+
+/* Gradio sidebar container */
+.sidebar,
+.gradio-container .sidebar,
+[class*="sidebar"],
+.gr-sidebar {
+    background: #0d0d1a !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle,
+[class*="sidebar-toggle"],
+button[aria-label="Toggle sidebar"] {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #8b85a8 !important;
+    transition: all 0.2s ease;
+}
+
+.sidebar-toggle:hover,
+[class*="sidebar-toggle"]:hover,
+button[aria-label="Toggle sidebar"]:hover {
+    background: rgba(139, 92, 246, 0.1) !important;
+    border-color: rgba(139, 92, 246, 0.3) !important;
+    color: #e8e6f0 !important;
+}
+
+/* Settings Sidebar */
+.settings-sidebar {
+    background: #0d0d1a !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Section headers in sidebar */
+.settings-section h3,
+.settings-section h4,
+.settings-section .gr-form > label:first-child,
+.sidebar h3,
+.sidebar h4 {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.7rem;
+    color: #8b85a8 !important;
+}
+
+
+/* ==========================================================================
+   6. NAVIGATION TABS (.page-nav)
+   ========================================================================== */
+
+/* Tab navigation container — pill-style navigation, not traditional tabs */
+.page-nav .tab-nav,
+.page-nav > div:first-child,
+.page-nav [role="tablist"] {
+    display: flex !important;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-radius: 12px !important;
+    margin-bottom: 1.5rem;
+    border: none !important;
+    /* Remove Gradio's default underline */
+    box-shadow: none !important;
+    border-bottom: none !important;
+}
+
+/* Tab buttons — pill style */
+.page-nav .tab-nav button,
+.page-nav [role="tablist"] button,
+.page-nav [role="tab"] {
+    padding: 10px 24px !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    font-size: 0.9rem !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+    color: #8b85a8 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
+    cursor: pointer;
+}
+
+/* Remove any underline/border-bottom from default Gradio tab styling */
+.page-nav .tab-nav button::after,
+.page-nav [role="tablist"] button::after,
+.page-nav [role="tab"]::after {
+    display: none !important;
+}
+
+.page-nav .tab-nav button::before,
+.page-nav [role="tablist"] button::before,
+.page-nav [role="tab"]::before {
+    display: none !important;
+}
+
+/* Tab button hover state */
+.page-nav .tab-nav button:hover,
+.page-nav [role="tablist"] button:hover,
+.page-nav [role="tab"]:hover {
+    background: rgba(139, 92, 246, 0.08) !important;
+    color: #e8e6f0 !important;
+}
+
+/* Tab button selected / active */
+.page-nav .tab-nav button.selected,
+.page-nav [role="tablist"] button[aria-selected="true"],
+.page-nav [role="tab"][aria-selected="true"],
+.page-nav .tab-nav button.active,
+.page-nav .tab-nav .selected {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3) !important;
+    border: none !important;
+    border-bottom: none !important;
+}
+
+/* Tab content panels — slide-up animation */
+.page-nav .tabitem,
+.page-nav [role="tabpanel"],
+.page-nav > .tab-content > div {
+    animation: slideUp 0.3s ease;
+}
+
+/* Also target default Gradio tabs that don't have the page-nav class
+   to ensure they're at least themed properly */
+.tabs > .tab-nav {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.tabs > .tab-nav button {
+    color: #8b85a8 !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+.tabs > .tab-nav button.selected,
+.tabs > .tab-nav button[aria-selected="true"] {
+    color: #e8e6f0 !important;
+    border-bottom: 2px solid #6366f1 !important;
+    background: transparent !important;
+}
+
+
+/* ==========================================================================
+   7. GLASS PANELS (.glass-panel)
+   ========================================================================== */
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.02) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 12px !important;
+    padding: 1.25rem !important;
+    transition: border-color 0.2s ease;
+}
+
+.glass-panel:hover {
+    border-color: rgba(139, 92, 246, 0.2) !important;
+}
+
+
+/* ==========================================================================
+   8. ACTION BUTTONS (.action-btn)
+   ========================================================================== */
+
+.action-btn,
+.action-btn > button,
+.action-btn button {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 12px 28px !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+}
+
+.action-btn:hover,
+.action-btn > button:hover,
+.action-btn button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4) !important;
+}
+
+.action-btn:active,
+.action-btn > button:active,
+.action-btn button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3) !important;
+}
+
+/* Pulse-glow while loading */
+.action-btn.loading,
+.action-btn > button.loading,
+.action-btn button[disabled] {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Also style Gradio's default primary button when not using .action-btn */
+button.primary,
+.gr-button.primary,
+button[variant="primary"] {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+button.primary:hover,
+.gr-button.primary:hover,
+button[variant="primary"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4) !important;
+}
+
+/* Secondary / default buttons */
+button.secondary,
+.gr-button.secondary,
+.gr-button:not(.primary) {
+    background: rgba(255, 255, 255, 0.04) !important;
+    color: #e8e6f0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 10px !important;
+    transition: all 0.2s ease !important;
+}
+
+button.secondary:hover,
+.gr-button.secondary:hover,
+.gr-button:not(.primary):hover {
+    background: rgba(139, 92, 246, 0.08) !important;
+    border-color: rgba(139, 92, 246, 0.3) !important;
+}
+
+
+/* ==========================================================================
+   9. FORM ELEMENTS (Gradio Overrides)
+   ========================================================================== */
+
+/* --- Text Inputs, Textareas --- */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+textarea,
+.gr-textbox textarea,
+.gr-textbox input,
+.gradio-container input[type="text"],
+.gradio-container textarea {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #e8e6f0 !important;
+    border-radius: 8px !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+.gr-textbox textarea:focus,
+.gr-textbox input:focus,
+.gradio-container input:focus,
+.gradio-container textarea:focus {
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15) !important;
+    outline: none !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #5a5478 !important;
+}
+
+/* Main text input */
+.main-input textarea {
+    min-height: 200px !important;
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+    border: 1px solid rgba(139, 92, 246, 0.15) !important;
+    border-radius: 10px !important;
+    transition: border-color 0.2s ease !important;
+}
+
+.main-input textarea:focus {
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12) !important;
+}
+
+/* --- Labels --- */
+label,
+.gr-form label,
+.gradio-container label,
+.gr-input-label,
+span.label-text {
+    color: #8b85a8 !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+}
+
+/* --- Dropdowns / Select --- */
+select,
+.gr-dropdown,
+.gradio-container select,
+[data-testid="dropdown"],
+.gradio-container .wrap[data-testid="dropdown"] {
+    background: #111122 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #e8e6f0 !important;
+    border-radius: 8px !important;
+}
+
+/* Dropdown option lists */
+.gr-dropdown ul,
+.gr-dropdown ol,
+[data-testid="dropdown"] ul,
+ul[role="listbox"],
+.gradio-container ul[role="listbox"] {
+    background: #111122 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Dropdown option hover */
+.gr-dropdown li:hover,
+[data-testid="dropdown"] li:hover,
+ul[role="listbox"] li:hover,
+ul[role="listbox"] [role="option"]:hover,
+.gradio-container ul[role="listbox"] li:hover {
+    background: rgba(139, 92, 246, 0.1) !important;
+}
+
+/* Dropdown selected option */
+ul[role="listbox"] li[aria-selected="true"],
+ul[role="listbox"] [role="option"][aria-selected="true"] {
+    background: rgba(99, 102, 241, 0.15) !important;
+    color: #e8e6f0 !important;
+}
+
+/* --- Radio Buttons --- */
+input[type="radio"] {
+    accent-color: #6366f1;
+}
+
+.gr-radio label,
+.gradio-container [data-testid="radio-group"] label {
+    color: #e8e6f0 !important;
+    transition: all 0.15s ease;
+}
+
+.gr-radio input[type="radio"]:checked + label,
+.gr-radio input[type="radio"]:checked ~ label,
+.gradio-container [data-testid="radio-group"] input:checked + label {
+    color: #e8e6f0 !important;
+}
+
+.gradio-container .gr-radio-row label,
+.gradio-container [role="radiogroup"] label {
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-radius: 8px !important;
+    padding: 8px 16px !important;
+    transition: all 0.2s ease !important;
+}
+
+.gradio-container .gr-radio-row label:hover,
+.gradio-container [role="radiogroup"] label:hover {
+    background: rgba(139, 92, 246, 0.06) !important;
+    border-color: rgba(139, 92, 246, 0.2) !important;
+}
+
+.gradio-container .gr-radio-row label.selected,
+.gradio-container [role="radiogroup"] label.selected,
+.gradio-container [role="radiogroup"] label:has(input:checked) {
+    background: rgba(99, 102, 241, 0.12) !important;
+    border-color: rgba(99, 102, 241, 0.4) !important;
+    color: #e8e6f0 !important;
+}
+
+/* --- Checkboxes --- */
+input[type="checkbox"] {
+    accent-color: #6366f1;
+}
+
+.gr-checkbox input[type="checkbox"],
+.gradio-container input[type="checkbox"] {
+    accent-color: #6366f1 !important;
+}
+
+/* --- Sliders / Range --- */
+input[type="range"] {
+    accent-color: #6366f1;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    background: #6366f1 !important;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+
+/* ==========================================================================
+   10. ACCORDIONS
+   ========================================================================== */
+
+.gr-accordion,
+.gradio-container details,
+.gradio-container .accordion {
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 10px !important;
+    overflow: hidden;
+    background: transparent !important;
+    transition: border-color 0.2s ease;
+}
+
+.gr-accordion:hover,
+.gradio-container details:hover {
+    border-color: rgba(139, 92, 246, 0.15) !important;
+}
+
+/* Accordion header */
+.gr-accordion > .label-wrap,
+.gradio-container details > summary,
+.gradio-container .accordion > .label-wrap {
+    background: transparent !important;
+    color: #e8e6f0 !important;
+    font-weight: 500 !important;
+    padding: 12px 16px !important;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    border: none !important;
+}
+
+.gr-accordion > .label-wrap:hover,
+.gradio-container details > summary:hover {
+    background: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* Accordion chevron / open indicator */
+.gr-accordion > .label-wrap > .icon,
+.gr-accordion > .label-wrap svg,
+.gradio-container details > summary::marker,
+.gradio-container details > summary::-webkit-details-marker {
+    color: #8b5cf6 !important;
+}
+
+/* Accordion content area */
+.gr-accordion > .content,
+.gradio-container details > :not(summary),
+.gradio-container .accordion .content {
+    background: transparent !important;
+    padding: 0 16px 12px !important;
+}
+
+/* Smooth transition via max-height (if Gradio supports it) */
+.gr-accordion > .content {
+    transition: max-height 0.3s ease, opacity 0.2s ease;
+}
+
+
+/* ==========================================================================
+   11. AUDIO PLAYER
+   ========================================================================== */
+
+.gr-audio,
+.gradio-container [data-testid="audio"],
+.gradio-container .audio-container {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    overflow: hidden;
+}
+
+/* Audio player progress bar */
+.gr-audio .progress-bar,
+.gradio-container audio::-webkit-media-controls-timeline,
+.gradio-container .audio-container .progress {
+    accent-color: #6366f1;
+}
+
+/* Audio waveform progress fill */
+.gr-audio .waveform-progress,
+.audio-container .progress-fill,
+.audio-container [class*="progress"] {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+}
+
+/* Time display */
+.gr-audio .timestamp,
+.audio-container .time,
+.audio-container [class*="time"],
+.audio-container [class*="timestamp"] {
+    color: #8b85a8 !important;
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Audio controls (play/pause/volume) */
+.gr-audio button,
+.audio-container button,
+.audio-container [class*="control"] {
+    color: #e8e6f0 !important;
+    transition: color 0.15s ease;
+}
+
+.gr-audio button:hover,
+.audio-container button:hover {
+    color: #8b5cf6 !important;
+}
+
+/* Audio player SVG icons */
+.gr-audio svg,
+.audio-container svg {
+    fill: currentColor;
+}
+
+
+/* ==========================================================================
+   12. FILE UPLOAD AREA
+   ========================================================================== */
+
+.gr-file,
+.gradio-container [data-testid="file"],
+.gradio-container .upload-container,
+.gradio-container .file-upload,
+[data-testid="droparea"] {
+    border: 2px dashed rgba(139, 92, 246, 0.2) !important;
+    background: rgba(139, 92, 246, 0.03) !important;
+    border-radius: 12px !important;
+    transition: all 0.2s ease !important;
+}
+
+.gr-file:hover,
+.gradio-container [data-testid="file"]:hover,
+.gradio-container .upload-container:hover,
+.gradio-container .file-upload:hover,
+[data-testid="droparea"]:hover {
+    border-color: rgba(139, 92, 246, 0.4) !important;
+    background: rgba(139, 92, 246, 0.06) !important;
+}
+
+/* Upload text / icon */
+.gr-file .upload-text,
+.gradio-container .upload-container span,
+.gradio-container .file-upload span,
+[data-testid="droparea"] span {
+    color: #8b85a8 !important;
+}
+
+.gr-file svg,
+.gradio-container .upload-container svg,
+.gradio-container .file-upload svg,
+[data-testid="droparea"] svg {
+    color: #8b85a8 !important;
+    opacity: 0.7;
+}
+
+/* Drag-over state */
+.gr-file.dragover,
+[data-testid="droparea"].dragover {
+    border-color: #6366f1 !important;
+    background: rgba(99, 102, 241, 0.08) !important;
+}
+
+
+/* ==========================================================================
+   13. EXAMPLES (.example-area)
+   ========================================================================== */
+
+.example-area {
+    background: rgba(255, 255, 255, 0.01) !important;
+    border-radius: 12px !important;
+    padding: 0.75rem !important;
+}
+
+/* Example items as clickable pills / chips */
+.example-area .gr-sample,
+.example-area table td,
+.example-area .example-item,
+.example-area .gr-examples .gr-sample,
+.example-area button,
+.gradio-container .gr-examples .gr-sample {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 8px !important;
+    color: #e8e6f0 !important;
+    padding: 8px 14px !important;
+    cursor: pointer;
+    transition: all 0.2s ease !important;
+}
+
+.example-area .gr-sample:hover,
+.example-area table td:hover,
+.example-area .example-item:hover,
+.example-area button:hover,
+.gradio-container .gr-examples .gr-sample:hover {
+    border-color: #6366f1 !important;
+    background: rgba(99, 102, 241, 0.08) !important;
+}
+
+/* Examples header text */
+.example-area .gr-examples > div:first-child,
+.example-area .gr-examples .label {
+    color: #8b85a8 !important;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Examples table styling */
+.example-area table,
+.gr-examples table {
+    border-collapse: separate !important;
+    border-spacing: 0.5rem !important;
+}
+
+
+/* ==========================================================================
+   14. PROGRESS BAR
+   ========================================================================== */
+
+.progress-bar,
+.gradio-container .progress-bar,
+.gradio-container [class*="progress-bar"],
+.gr-progress-bar {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 999px !important;
+    height: 4px !important;
+    overflow: hidden;
+}
+
+.progress-bar .progress-bar-fill,
+.progress-bar > div,
+.gradio-container .progress-bar > div,
+.gradio-container [class*="progress-bar"] > div,
+.gr-progress-bar > div {
+    background: linear-gradient(90deg, #4f46e5, #8b5cf6) !important;
+    border-radius: 999px !important;
+    height: 100% !important;
+    transition: width 0.3s ease;
+}
+
+/* Gradio progress text */
+.progress-text,
+.gradio-container .progress-text,
+.eta-bar {
+    color: #8b85a8 !important;
+    font-size: 0.8rem !important;
+}
+
+/* Progress spinner override */
+.gradio-container .loading,
+.gradio-container .generating {
+    border-color: rgba(99, 102, 241, 0.3) !important;
+    border-top-color: #6366f1 !important;
+}
+
+
+/* ==========================================================================
+   15. SCROLLBAR
+   ========================================================================== */
+
+/* Webkit scrollbar (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.2);
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 92, 246, 0.3);
+}
+
+/* Firefox scrollbar */
+body,
+.gradio-container {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 92, 246, 0.2) transparent;
+}
+
+
+/* ==========================================================================
+   16. GRADIO-SPECIFIC OVERRIDES
+   ========================================================================== */
+
+/* Override default Gradio orange/blue focus ring to indigo */
+.gradio-container *:focus-visible,
+.gradio-container *:focus {
+    outline-color: #6366f1 !important;
+}
+
+.gradio-container .gr-box,
+.gradio-container .gr-form,
+.gradio-container .gr-panel {
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Gradio group containers */
+.gradio-container .gr-group,
+.gradio-container .group {
+    background: rgba(255, 255, 255, 0.01) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 12px !important;
+}
+
+/* Gradio Row */
+.gradio-container .gr-row,
+.gradio-container .row {
+    gap: 1rem;
+}
+
+/* Gradio column padding */
+.gradio-container .gr-column,
+.gradio-container .col {
+    gap: 0.75rem;
+}
+
+/* Markdown text */
+.gradio-container .markdown-text,
+.gradio-container .gr-markdown,
+.gradio-container .prose {
+    color: #e8e6f0 !important;
+}
+
+.gradio-container .gr-markdown h1,
+.gradio-container .gr-markdown h2,
+.gradio-container .gr-markdown h3 {
+    color: #e8e6f0 !important;
+}
+
+.gradio-container .gr-markdown h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e8e6f0 !important;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Gradio info/warning/error messages */
+.gradio-container .message,
+.gradio-container .gr-toast {
+    border-radius: 10px !important;
+}
+
+.gradio-container .gr-toast.success,
+.gradio-container .toast-body.success {
+    background: rgba(16, 185, 129, 0.1) !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    color: #34d399 !important;
+}
+
+.gradio-container .gr-toast.error,
+.gradio-container .toast-body.error {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+    color: #f87171 !important;
+}
+
+.gradio-container .gr-toast.warning,
+.gradio-container .toast-body.warning {
+    background: rgba(245, 158, 11, 0.1) !important;
+    border: 1px solid rgba(245, 158, 11, 0.3) !important;
+    color: #fbbf24 !important;
+}
+
+.gradio-container .gr-toast.info,
+.gradio-container .toast-body.info {
+    background: rgba(59, 130, 246, 0.1) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+    color: #60a5fa !important;
+}
+
+/* Override Gradio popover / dropdown menus */
+.gradio-container [role="listbox"],
+.gradio-container .dropdown-menu,
+.gradio-container [class*="popover"],
+.gradio-container [data-floating-ui-portal] > div,
+.gradio-container .menu {
+    background: #111122 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Gradio info text / helper text below inputs */
+.gradio-container .gr-info,
+.gradio-container .info-text,
+.gradio-container .helper-text {
+    color: #5a5478 !important;
+    font-size: 0.75rem;
+}
+
+/* Gradio block labels at top-left */
+.gradio-container .block-label,
+.gradio-container .gr-block-label {
+    background: #111122 !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    color: #8b85a8 !important;
+    border-radius: 6px !important;
+}
+
+/* Gradio textbox container / wrapper */
+.gradio-container .gr-textbox,
+.gradio-container .textbox {
+    background: transparent !important;
+}
+
+/* Code blocks within Gradio Markdown */
+.gradio-container .gr-markdown code {
+    background: rgba(139, 92, 246, 0.1) !important;
+    color: #c4b5fd !important;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+.gradio-container .gr-markdown pre {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 8px !important;
+    padding: 1rem !important;
+}
+
+/* Error / validation states */
+.gradio-container .error,
+.gradio-container [class*="error"] input,
+.gradio-container [class*="error"] textarea {
+    border-color: rgba(239, 68, 68, 0.5) !important;
+}
+
+/* Loading overlay */
+.gradio-container .wrap.generating,
+.gradio-container .loading-overlay {
+    background: rgba(10, 10, 20, 0.7) !important;
+}
+
+/* Gradio status bar / queue info */
+.gradio-container .queue-status,
+.gradio-container .status-indicator {
+    color: #8b85a8 !important;
+}
+
+/* Links */
+.gradio-container a {
+    color: #818cf8 !important;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.gradio-container a:hover {
+    color: #a5b4fc !important;
+    text-decoration: underline;
+}
+
+/* Image component within Gradio (in case it's used) */
+.gradio-container .gr-image {
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Dividers / horizontal rules */
+.gradio-container hr {
+    border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+
+/* ==========================================================================
+   17. SETTINGS SECTION (.settings-section)
+   ========================================================================== */
+
+.settings-section {
+    padding: 0.5rem 0;
+}
+
+.settings-section h3,
+.settings-section h4 {
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    font-size: 0.7rem !important;
+    color: #8b85a8 !important;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+
+/* ==========================================================================
+   18. RESPONSIVE (< 768px)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    /* Reduce header padding & text */
+    #voxcraft-header {
+        padding: 1.25rem 1.5rem;
+        border-radius: 12px;
+    }
+
+    #voxcraft-header h1 {
+        font-size: 1.5rem;
+    }
+
+    #voxcraft-header p {
+        font-size: 0.85rem;
+    }
+
+    /* Tighten container padding */
+    .gradio-container {
+        padding: 0.75rem !important;
+    }
+
+    /* Stack badges vertically if needed */
+    #status-area {
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    /* Smaller tab buttons */
+    .page-nav .tab-nav button,
+    .page-nav [role="tablist"] button,
+    .page-nav [role="tab"] {
+        padding: 8px 16px !important;
+        font-size: 0.8rem !important;
+    }
+
+    /* Glass panels less padding */
+    .glass-panel {
+        padding: 0.75rem !important;
+        border-radius: 10px !important;
+    }
+
+    /* Action buttons full-width */
+    .action-btn,
+    .action-btn > button,
+    .action-btn button {
+        width: 100% !important;
+        padding: 12px 20px !important;
+    }
+
+    /* Tab nav wraps */
+    .page-nav .tab-nav,
+    .page-nav [role="tablist"] {
+        flex-wrap: wrap;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    #voxcraft-header {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+
+    #voxcraft-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .page-nav .tab-nav,
+    .page-nav [role="tablist"] {
+        flex-direction: column;
+    }
+
+    .page-nav .tab-nav button,
+    .page-nav [role="tablist"] button {
+        width: 100% !important;
+        text-align: center;
+    }
+}
+
+
+/* ==========================================================================
+   19. UTILITY / MISC
+   ========================================================================== */
+
+/* Subtle surface card tint (for use on any container) */
+.surface-card {
+    background: rgba(139, 92, 246, 0.04) !important;
+}
+
+.surface-card:hover {
+    background: rgba(139, 92, 246, 0.08) !important;
+}
+
+/* Transition for borders everywhere */
+.gradio-container .gr-group,
+.gradio-container .gr-box,
+.gradio-container details,
+.glass-panel {
+    transition: border-color 0.2s ease;
+}
+
+/* Ensure text selection uses brand color */
+::selection {
+    background: rgba(99, 102, 241, 0.3);
+    color: #e8e6f0;
+}
+
+::-moz-selection {
+    background: rgba(99, 102, 241, 0.3);
+    color: #e8e6f0;
+}
+
+
+/* ==========================================================================
+   20. TEXT CLEANING CONTROLS (.text-cleaning-panel)
+   ========================================================================== */
+
+.text-cleaning-panel {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+}
+
+.text-cleaning-panel .gr-checkbox-group label {
+    font-size: 0.85rem !important;
+    text-transform: none !important;
+    color: #e8e6f0 !important;
+    padding: 6px 0 !important;
+}
+
+
+/* ==========================================================================
+   21. DEVICE & MEMORY STATUS (.device-status)
+   ========================================================================== */
+
+.device-status {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    font-size: 0.8rem;
+    color: #8b85a8;
+    flex-wrap: wrap;
+}
+
+.device-status .device-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 3px 10px;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: #818cf8;
+    white-space: nowrap;
+}
+
+.device-status .memory-bar {
+    flex: 1;
+    min-width: 80px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.device-status .memory-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #6366f1);
+    border-radius: 999px;
+    transition: width 0.5s ease;
+}
+
+.device-status .memory-text {
+    font-size: 0.75rem;
+    color: #8b85a8;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   22. COST ESTIMATE (.cost-estimate)
+   ========================================================================== */
+
+.cost-estimate {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: rgba(59, 130, 246, 0.05);
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: #8b85a8;
+    transition: all 0.2s ease;
+}
+
+.cost-estimate .cost-amount {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #60a5fa;
+    font-variant-numeric: tabular-nums;
+}
+
+.cost-estimate .cost-detail {
+    font-size: 0.7rem;
+    color: #5a5478;
+}
+
+.cost-estimate.cost-free {
+    background: rgba(16, 185, 129, 0.05);
+    border-color: rgba(16, 185, 129, 0.15);
+}
+
+.cost-estimate.cost-free .cost-amount {
+    color: #34d399;
+}
+
+
+/* ==========================================================================
+   23. BOOK METADATA CARD (.book-meta-card)
+   ========================================================================== */
+
+.book-meta-card {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    animation: slideUp 0.3s ease;
+}
+
+.book-meta-card .book-cover {
+    width: 80px;
+    height: 120px;
+    border-radius: 6px;
+    object-fit: cover;
+    background: rgba(139, 92, 246, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+}
+
+.book-meta-card .book-cover-placeholder {
+    width: 80px;
+    height: 120px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5a5478;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.book-meta-card .book-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+}
+
+.book-meta-card .book-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #e8e6f0;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.book-meta-card .book-author {
+    font-size: 0.85rem;
+    color: #8b85a8;
+}
+
+.book-meta-card .book-stats {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+    flex-wrap: wrap;
+}
+
+.book-meta-card .book-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: #5a5478;
+    padding: 2px 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 4px;
+}
+
+.book-meta-card .book-stat strong {
+    color: #8b85a8;
+    font-weight: 500;
+}
+
+
+/* ==========================================================================
+   24. CHAPTER LIST (.chapter-list)
+   ========================================================================== */
+
+.chapter-list {
+    max-height: 280px;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.01);
+}
+
+.chapter-list .chapter-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    transition: background 0.15s ease;
+    cursor: pointer;
+}
+
+.chapter-list .chapter-item:last-child {
+    border-bottom: none;
+}
+
+.chapter-list .chapter-item:hover {
+    background: rgba(139, 92, 246, 0.05);
+}
+
+.chapter-list .chapter-item.selected {
+    background: rgba(99, 102, 241, 0.08);
+}
+
+.chapter-list .chapter-title {
+    flex: 1;
+    font-size: 0.85rem;
+    color: #e8e6f0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.chapter-list .chapter-words {
+    font-size: 0.7rem;
+    color: #5a5478;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.chapter-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.chapter-list-header .chapter-count {
+    font-size: 0.75rem;
+    color: #8b85a8;
+}
+
+
+/* ==========================================================================
+   25. OUTPUT FORMAT OPTIONS (.output-format-group)
+   ========================================================================== */
+
+.output-format-group .format-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 0.35rem;
+}
+
+.output-format-group .format-option:hover {
+    border-color: rgba(139, 92, 246, 0.2);
+    background: rgba(139, 92, 246, 0.04);
+}
+
+.output-format-group .format-option.active {
+    border-color: rgba(99, 102, 241, 0.4);
+    background: rgba(99, 102, 241, 0.08);
+}
+
+.output-format-group .format-label {
+    font-size: 0.85rem;
+    color: #e8e6f0;
+    font-weight: 500;
+}
+
+.output-format-group .format-desc {
+    font-size: 0.7rem;
+    color: #5a5478;
+}
+
+
+/* ==========================================================================
+   26. RESUME / PROGRESS INDICATOR (.conversion-progress)
+   ========================================================================== */
+
+.conversion-progress {
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+}
+
+.conversion-progress .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.conversion-progress .progress-title {
+    font-size: 0.85rem;
+    color: #e8e6f0;
+    font-weight: 500;
+}
+
+.conversion-progress .progress-pct {
+    font-size: 0.8rem;
+    color: #8b5cf6;
+    font-variant-numeric: tabular-nums;
+}
+
+.conversion-progress .progress-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.conversion-progress .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+    border-radius: 999px;
+    transition: width 0.5s ease;
+}
+
+.conversion-progress .progress-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.35rem;
+    font-size: 0.7rem;
+    color: #5a5478;
+}
+
+.conversion-progress .resume-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 2px 8px;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: 4px;
+    font-size: 0.7rem;
+    color: #fbbf24;
+}
+
+
+/* ==========================================================================
+   27. VOICE PREVIEW CARDS (.voice-preview-grid)
+   ========================================================================== */
+
+.voice-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+}
+
+.voice-preview-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.voice-preview-card:hover {
+    border-color: rgba(139, 92, 246, 0.3);
+    background: rgba(139, 92, 246, 0.06);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.voice-preview-card.active {
+    border-color: #6366f1;
+    background: rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.voice-preview-card .voice-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #818cf8;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.voice-preview-card .voice-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #e8e6f0;
+}
+
+.voice-preview-card .voice-desc {
+    font-size: 0.7rem;
+    color: #8b85a8;
+    text-align: center;
+}
+
+.voice-preview-card .voice-play-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: #818cf8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.voice-preview-card .voice-play-btn:hover {
+    background: rgba(99, 102, 241, 0.25);
+    transform: scale(1.1);
+}
+
+
+/* ==========================================================================
+   28. WAVEFORM VISUALIZATION (.waveform-container)
+   ========================================================================== */
+
+.waveform-container {
+    width: 100%;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.waveform-container canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.waveform-container .waveform-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(99, 102, 241, 0.15), transparent);
+    pointer-events: none;
+    transition: width 0.1s linear;
+}
+
+.waveform-bars {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    height: 100%;
+    padding: 10px 16px;
+}
+
+.waveform-bars .bar {
+    width: 3px;
+    background: linear-gradient(180deg, #6366f1, #8b5cf6);
+    border-radius: 999px;
+    transition: height 0.15s ease;
+    min-height: 4px;
+}
+
+.waveform-bars.playing .bar {
+    animation: waveform-pulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes waveform-pulse {
+    0% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+
+/* ==========================================================================
+   29. TEXT HIGHLIGHTING / SYNC (.text-highlight)
+   ========================================================================== */
+
+.text-highlight-container {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #8b85a8;
+}
+
+.text-highlight-container .chunk {
+    display: inline;
+    transition: color 0.2s ease, background 0.2s ease;
+    padding: 1px 2px;
+    border-radius: 3px;
+}
+
+.text-highlight-container .chunk.active {
+    color: #e8e6f0;
+    background: rgba(99, 102, 241, 0.12);
+}
+
+.text-highlight-container .chunk.completed {
+    color: #b8b4c8;
+}
+
+
+/* ==========================================================================
+   30. INTRO/OUTRO FIELDS (.announcement-fields)
+   ========================================================================== */
+
+.announcement-fields {
+    padding: 0.75rem;
+    background: rgba(139, 92, 246, 0.03);
+    border: 1px solid rgba(139, 92, 246, 0.1);
+    border-radius: 10px;
+}
+
+.announcement-fields textarea {
+    font-size: 0.85rem !important;
+    min-height: 60px !important;
+}
+
+.announcement-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: #8b85a8;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+
+/* ==========================================================================
+   31. STREAMING INDICATOR (.streaming-indicator)
+   ========================================================================== */
+
+.streaming-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 4px 12px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    color: #34d399;
+}
+
+.streaming-indicator .pulse-dot {
+    width: 6px;
+    height: 6px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+
+/* ==========================================================================
+   32. RESPONSIVE — Phase 2 & 3 Components (< 768px)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    /* Book metadata card stacks vertically */
+    .book-meta-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.75rem;
+    }
+
+    .book-meta-card .book-title {
+        white-space: normal;
+    }
+
+    .book-meta-card .book-stats {
+        justify-content: center;
+    }
+
+    /* Device status wraps */
+    .device-status {
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Voice preview grid — 2 columns */
+    .voice-preview-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+
+    .voice-preview-card {
+        padding: 0.6rem;
+    }
+
+    /* Chapter list shorter */
+    .chapter-list {
+        max-height: 200px;
+    }
+
+    /* Cost estimate stacks */
+    .cost-estimate {
+        flex-wrap: wrap;
+    }
+
+    /* Conversion progress detail stacks */
+    .conversion-progress .progress-detail {
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    /* Text highlight container shorter */
+    .text-highlight-container {
+        max-height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Voice preview grid — single column */
+    .voice-preview-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Book cover smaller on tiny screens */
+    .book-meta-card .book-cover,
+    .book-meta-card .book-cover-placeholder {
+        width: 60px;
+        height: 90px;
+    }
+
+    /* Chapter list even shorter */
+    .chapter-list {
+        max-height: 160px;
+    }
+
+    /* Waveform shorter */
+    .waveform-container {
+        height: 48px;
+    }
+}
+
