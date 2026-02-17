@@ -19,7 +19,7 @@ pip install -r requirements.txt
 
 ## Step 3: Configure the Converter
 
-Edit the configuration section at the top of `audiobook_converter.py`:
+Edit the configuration section at the top of `src/audiobook_converter.py`:
 
 ### For Custom Voice (Easiest - Recommended)
 
@@ -46,13 +46,13 @@ VOICE_DESIGN_DESCRIPTION = "Speak in a clear, professional narrator voice."
 
 ## Step 4: Add Your Books
 
-Place your books in the `books_to_convert/` folder:
+Place your books in the `book_to_convert/` folder:
 - Supported formats: `.txt`, `.pdf`, `.epub`, `.docx`, `.doc`
 
 ## Step 5: Run the Converter
 
 ```bash
-python audiobook_converter.py
+python src/audiobook_converter.py
 ```
 
 ## Step 6: Find Your Audiobook
