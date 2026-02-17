@@ -1,0 +1,32 @@
+# Test configuration - single chapter conversion
+# For testing the OpenAI TTS converter
+
+intro_text: "This audiobook is read by A I."
+title_announcement: "The Ismaili Assassins, by James Waterson."
+outro_text: null  # Skip outro for test
+
+voice:
+  slug: openai_test
+  language: English
+  instruct: >
+    Adult American male, baritone voice, professional audiobook narrator.
+    Clear enunciation with natural American accent. Calm, authoritative,
+    and engaging tone suitable for historical non-fiction.
+
+chapters:
+  include:
+    - foreword  # Only convert the foreword for testing
+
+conversion:
+  announce_chapters: true
+  chapter_pause: 2.0
+
+text_cleaning:
+  fix_spaced_capitals: true
+  remove_footnotes: true
+  normalize_special_chars: true
+
+output:
+  format: m4b
+  bitrate: 128k
+  embed_cover: true

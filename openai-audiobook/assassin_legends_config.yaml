@@ -1,0 +1,74 @@
+# The Assassin Legends: Myths of the Ismailis
+# By Farhad Daftary
+#
+# Audiobook conversion configuration
+# Source: the-assassin-legends-myths-of-the-ismailis-9780755612284-9781850437055_compress.pdf
+
+book:
+  title: "The Assassin Legends: Myths of the Isma'ilis"
+  author: "Farhad Daftary"
+  description: |
+    For hundreds of years Westerners have been fascinated by stories of the Assassins,
+    their mysterious leader and their remote mountain stronghold at Alamut in Northern Iran.
+    Daftary traces the origins and early development of the legends - as well as investigating
+    the historical context in which they were fabricated and transmitted.
+
+# Chapter structure based on actual PDF sections
+# Excluding Appendix (pages 132-202) and Index (pages 203-217)
+chapters:
+  - id: ch01_transliteration
+    title: "Note on Transliteration and Abbreviations"
+    pages: [1]
+
+  - id: ch02_preface
+    title: "Preface"
+    pages: [2, 3]
+
+  - id: ch03_introduction
+    title: "Introduction"
+    pages: [4, 5, 6, 7, 8, 9, 10]
+
+  - id: ch04_ismailis_history
+    title: "The Isma'ilis in History and in Mediaeval Muslim Writings"
+    page_range: [11, 51]
+
+  - id: ch05_european_perceptions
+    title: "Mediaeval European Perceptions of Islam and the Isma'ilis"
+    page_range: [52, 90]
+
+  - id: ch06_origins_legends
+    title: "Origins and Early Formation of the Legends"
+    page_range: [91, 131]
+
+# Pages to exclude from conversion
+exclude_pages:
+  # Appendix - scholarly notes and references
+  - range: [132, 202]
+  # Index - not suitable for audio
+  - range: [203, 217]
+
+# Voice settings
+voice:
+  name: coral
+  slug: coral
+  instruct: |
+    Read this scholarly historical text with a clear, measured pace suitable for an audiobook.
+    Pronounce Arabic and Persian names carefully.
+    Maintain an engaging but professional tone appropriate for academic non-fiction.
+
+# Text cleaning options
+text_cleaning:
+  fix_hyphenation: true
+  remove_page_numbers: true
+  normalize_special_chars: true
+
+# Output settings
+output:
+  format: m4b
+  bitrate: 128k
+  embed_cover: false  # PDF doesn't have embedded cover
+
+# Conversion settings
+conversion:
+  announce_chapters: true
+  chapter_pause: 2.5
