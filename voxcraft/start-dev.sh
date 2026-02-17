@@ -1,36 +1,61 @@
 #!/bin/bash
 # Start VoxCraft in development mode on macOS
 
-# Get the directory where this script is located
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-PROJECT_ROOT="$( cd "$SCRIPT_DIR/.." && pwd )"
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 VENV_PATH="$PROJECT_ROOT/.venv/bin/activate"
 
-# Check if virtual environment exists
 if [ ! -f "$VENV_PATH" ]; then
-    echo "❌ Virtual environment not found at $VENV_PATH"
-    echo "Please create it first: python3 -m venv .venv"
-    exit 1
+  echo "❌ Virtual environment not found at $VENV_PATH"
+  echo "Create it with: python3 -m venv .venv"
+  exit 1
 fi
 
-# Activate virtual environment
+if ! command -v npm >/dev/null 2>&1; then
+  echo "❌ npm is not installed or not in PATH"
+  exit 1
+fi
+
+free_port() {
+  local port="$1"
+  local pids
+
+  pids="$(lsof -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)"
+  if [ -z "$pids" ]; then
+    return
+  fi
+
+  echo "⚠️  Port $port is in use. Stopping process(es): $pids"
+  kill $pids 2>/dev/null || true
+  sleep 1
+
+  pids="$(lsof -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)"
+  if [ -n "$pids" ]; then
+    echo "⚠️  Force-killing process(es) on port $port: $pids"
+    kill -9 $pids 2>/dev/null || true
+  fi
+}
+
 echo "🐍 Activating virtual environment..."
+# shellcheck disable=SC1090
 source "$VENV_PATH"
 
-# Set environment variables for local dev (no license required)
+# Local dev defaults
 export VOXCRAFT_DEPLOYMENT_MODE=local
 export VOXCRAFT_LICENSE_REQUIRED=false
 export VOXCRAFT_DEFAULT_ENGINE=openai
 
-# Optional: Set OpenAI API key if you have one
-# export OPENAI_API_KEY="your-key-here"
+# Avoid 'address already in use' during restarts
+free_port 8000
+free_port 5173
 
 cd "$SCRIPT_DIR"
 
 echo "🚀 Starting VoxCraft development servers..."
-echo "   Backend: http://localhost:8000"
+echo "   Backend:  http://localhost:8000"
 echo "   Frontend: http://localhost:5173"
 echo ""
 
-# Run both backend and frontend concurrently
 npm run dev
