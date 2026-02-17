@@ -3,6 +3,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { LandingOverlay } from "@/components/landing/LandingOverlay";
 import { LicenseGate } from "@/components/license/LicenseGate";
 import { TourOverlay } from "@/components/onboarding/TourOverlay";
+import { QueuePanel } from "@/components/queue/QueuePanel";
 import { QuickClipPage } from "@/pages/QuickClipPage";
 import { AudiobookPage } from "@/pages/AudiobookPage";
 import { StudioPage } from "@/pages/StudioPage";
@@ -19,6 +20,7 @@ export default function App() {
       {/* z-80: Tour shows if !hasCompletedOnboarding */}
       <TourOverlay />
       {/* z-0: Always mounted behind overlays */}
+      <QueuePanel />
       <AppShell>
         <Routes>
           <Route path="/" element={<QuickClipPage />} />

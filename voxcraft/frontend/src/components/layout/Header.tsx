@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { clsx } from "clsx";
 import { Badge } from "@/components/shared/Badge";
+import { QueueBell } from "@/components/queue/QueueBell";
 import { useEngineStore } from "@/stores/useEngineStore";
 import { useUIStore } from "@/stores/useUIStore";
 
@@ -60,8 +61,9 @@ export function Header() {
         ))}
       </nav>
 
-      {/* Settings gear */}
-      <div className="w-32 flex justify-end">
+      {/* Queue & Settings */}
+      <div className="w-32 flex justify-end items-center gap-2">
+        <QueueBell />
         <button
           onClick={handleSettingsClick}
           className={clsx(

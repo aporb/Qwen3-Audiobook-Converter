@@ -12,7 +12,9 @@ from fastapi.staticfiles import StaticFiles
 
 from backend.config import settings
 from backend.middleware.session import SessionMiddleware
-from backend.routers import system, tts, books, audiobook, casting, audio, export, license, cleaning, voices, url_reader
+from backend.routers import system, tts, books, audiobook, casting, audio, export, license, cleaning, voices, url_reader, queue
+from backend.models.queue import init_database
+from backend.tasks import tts_tasks, url_tasks, audiobook_tasks, cleaning_tasks  # Register task handlers
 
 
 async def _cleanup_expired_sessions():
@@ -33,6 +35,7 @@ async def _cleanup_expired_sessions():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     settings.ensure_dirs()
+    init_database("data/queue.db")
     cleanup_task = asyncio.create_task(_cleanup_expired_sessions())
     yield
     cleanup_task.cancel()
@@ -64,6 +67,7 @@ app.include_router(license.router)
 app.include_router(cleaning.router)
 app.include_router(voices.router)
 app.include_router(url_reader.router)
+app.include_router(queue.router)
 
 # In cloud mode, serve the built frontend as static files.
 # html=True enables SPA fallback (returns index.html for unmatched routes).
