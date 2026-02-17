@@ -7,6 +7,8 @@ export type JobType = "tts" | "url_fetch" | "summarize" | "audiobook" | "cleanin
 export interface Job {
   id: string;
   session_id: string;
+  user_id?: string;
+  shared_session_id?: string;
   status: JobStatus;
   job_type: JobType;
   payload: Record<string, unknown>;
@@ -45,8 +47,11 @@ interface QueueState {
   isPanelOpen: boolean;
   activeTab: "active" | "paused" | "completed" | "failed";
   
-  // Session
+  // Session & User
   sessionId: string;
+  userId?: string;
+  apiToken?: string;
+  isAuthenticated: boolean;
   
   // Actions
   setJobs: (jobs: Job[]) => void;
@@ -59,6 +64,9 @@ interface QueueState {
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   setSessionId: (sessionId: string) => void;
+  setUser: (userId: string, apiToken: string) => void;
+  clearUser: () => void;
+  reorderJobs: (jobIds: string[]) => void;
   
   // Computed
   getActiveJobs: () => Job[];
@@ -84,6 +92,7 @@ export const useQueueStore = create<QueueState>()(
       isPanelOpen: false,
       activeTab: "active",
       sessionId: generateSessionId(),
+      isAuthenticated: false,
 
       // Actions
       setJobs: (jobs) => set({ jobs }),
@@ -109,6 +118,15 @@ export const useQueueStore = create<QueueState>()(
       setLoading: (loading) => set({ isLoading: loading }),
       setError: (error) => set({ error }),
       setSessionId: (sessionId) => set({ sessionId }),
+      setUser: (userId, apiToken) => set({ userId, apiToken, isAuthenticated: true }),
+      clearUser: () => set({ userId: undefined, apiToken: undefined, isAuthenticated: false }),
+      reorderJobs: (jobIds) => set((state) => {
+        // Reorder jobs based on jobIds array (maintaining other jobs)
+        const jobMap = new Map(state.jobs.map(j => [j.id, j]));
+        const reordered = jobIds.map(id => jobMap.get(id)).filter(Boolean) as Job[];
+        const otherJobs = state.jobs.filter(j => !jobIds.includes(j.id));
+        return { jobs: [...reordered, ...otherJobs] };
+      }),
 
       // Computed
       getActiveJobs: () => {
@@ -145,6 +163,9 @@ export const useQueueStore = create<QueueState>()(
       name: "voxcraft-queue",
       partialize: (state) => ({ 
         sessionId: state.sessionId,
+        userId: state.userId,
+        apiToken: state.apiToken,
+        isAuthenticated: state.isAuthenticated,
         // Don't persist jobs - they should be fetched fresh
       }),
     }

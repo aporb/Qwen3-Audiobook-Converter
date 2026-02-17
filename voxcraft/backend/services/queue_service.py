@@ -1,7 +1,8 @@
-"""Queue service for job management."""
+"""Queue service for job management with SSE and user support."""
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from datetime import datetime, timedelta
 from typing import Any, Optional
@@ -10,6 +11,7 @@ from sqlalchemy import and_, desc, or_
 from sqlalchemy.orm import Session
 
 from backend.models.queue import Job, JobStatus, JobType, get_session, init_database
+from backend.utils.queue_sse import queue_sse_manager
 
 logger = logging.getLogger(__name__)
 
@@ -32,11 +34,15 @@ class QueueService:
         priority: int = 5,
         dependencies: Optional[list[str]] = None,
         parent_job_id: Optional[str] = None,
+        user_id: Optional[str] = None,
+        shared_session_id: Optional[str] = None,
     ) -> Job:
         """Add a new job to the queue."""
         with get_session() as session:
             job = Job(
                 session_id=session_id,
+                user_id=user_id,
+                shared_session_id=shared_session_id,
                 job_type=job_type,
                 payload=payload,
                 priority=max(1, min(10, priority)),  # Clamp to 1-10
@@ -50,12 +56,20 @@ class QueueService:
             session.commit()
             session.refresh(job)
             logger.info(f"Enqueued job {job.id} of type {job_type.value}")
+            
+            # Publish SSE event
+            asyncio.create_task(
+                queue_sse_manager.publish_job_created(session_id, job.to_dict())
+            )
+            
             return job
 
     def enqueue_chain(
         self,
         session_id: str,
         steps: list[dict[str, Any]],
+        user_id: Optional[str] = None,
+        shared_session_id: Optional[str] = None,
     ) -> list[Job]:
         """Enqueue a chain of dependent jobs.
         
@@ -69,6 +83,8 @@ class QueueService:
             for i, step in enumerate(steps):
                 job = Job(
                     session_id=session_id,
+                    user_id=user_id,
+                    shared_session_id=shared_session_id,
                     job_type=JobType(step["type"]),
                     payload=step.get("payload", {}),
                     priority=step.get("priority", 5),
@@ -89,6 +105,13 @@ class QueueService:
                 session.refresh(job)
 
         logger.info(f"Enqueued job chain with {len(jobs)} steps")
+        
+        # Publish SSE events for all jobs
+        for job in jobs:
+            asyncio.create_task(
+                queue_sse_manager.publish_job_created(session_id, job.to_dict())
+            )
+        
         return jobs
 
     # ========== Job Retrieval ==========
@@ -114,6 +137,48 @@ class QueueService:
                 query = query.filter(Job.status == status)
             if job_type:
                 query = query.filter(Job.job_type == job_type)
+
+            return (
+                query.order_by(desc(Job.created_at))
+                .offset(offset)
+                .limit(limit)
+                .all()
+            )
+
+    def get_jobs_by_user(
+        self,
+        user_id: str,
+        status: Optional[JobStatus] = None,
+        limit: int = 100,
+        offset: int = 0,
+    ) -> list[Job]:
+        """Get jobs for a user across all sessions."""
+        with get_session() as session:
+            query = session.query(Job).filter(Job.user_id == user_id)
+
+            if status:
+                query = query.filter(Job.status == status)
+
+            return (
+                query.order_by(desc(Job.created_at))
+                .offset(offset)
+                .limit(limit)
+                .all()
+            )
+
+    def get_jobs_by_shared_session(
+        self,
+        shared_session_id: str,
+        status: Optional[JobStatus] = None,
+        limit: int = 100,
+        offset: int = 0,
+    ) -> list[Job]:
+        """Get jobs in a shared session."""
+        with get_session() as session:
+            query = session.query(Job).filter(Job.shared_session_id == shared_session_id)
+
+            if status:
+                query = query.filter(Job.status == status)
 
             return (
                 query.order_by(desc(Job.created_at))
@@ -166,6 +231,12 @@ class QueueService:
             job.updated_at = datetime.utcnow()
             session.commit()
             logger.info(f"Job {job_id} started")
+            
+            # Publish SSE event
+            asyncio.create_task(
+                queue_sse_manager.publish_job_update(job.session_id, job.to_dict())
+            )
+            
             return True
 
     def update_progress(
@@ -184,6 +255,14 @@ class QueueService:
             job.progress_message = message
             job.updated_at = datetime.utcnow()
             session.commit()
+            
+            # Publish SSE event (throttle to avoid spam)
+            # Only publish every 5% or on significant message changes
+            if int(progress * 100) % 5 == 0:
+                asyncio.create_task(
+                    queue_sse_manager.publish_job_update(job.session_id, job.to_dict())
+                )
+            
             return True
 
     def mark_completed(
@@ -204,6 +283,12 @@ class QueueService:
             job.updated_at = datetime.utcnow()
             session.commit()
             logger.info(f"Job {job_id} completed")
+            
+            # Publish SSE event
+            asyncio.create_task(
+                queue_sse_manager.publish_job_completed(job.session_id, job.to_dict())
+            )
+            
             return True
 
     def mark_failed(self, job_id: str, error_message: str) -> bool:
@@ -219,6 +304,12 @@ class QueueService:
             job.updated_at = datetime.utcnow()
             session.commit()
             logger.error(f"Job {job_id} failed: {error_message}")
+            
+            # Publish SSE event
+            asyncio.create_task(
+                queue_sse_manager.publish_job_failed(job.session_id, job_id, error_message)
+            )
+            
             return True
 
     def mark_cancelled(self, job_id: str) -> bool:
@@ -233,6 +324,12 @@ class QueueService:
             job.updated_at = datetime.utcnow()
             session.commit()
             logger.info(f"Job {job_id} cancelled")
+            
+            # Publish SSE event
+            asyncio.create_task(
+                queue_sse_manager.publish_job_update(job.session_id, job.to_dict())
+            )
+            
             return True
 
     def pause_job(self, job_id: str) -> bool:
@@ -246,6 +343,12 @@ class QueueService:
             job.updated_at = datetime.utcnow()
             session.commit()
             logger.info(f"Job {job_id} paused")
+            
+            # Publish SSE event
+            asyncio.create_task(
+                queue_sse_manager.publish_job_update(job.session_id, job.to_dict())
+            )
+            
             return True
 
     def resume_job(self, job_id: str) -> bool:
@@ -259,6 +362,12 @@ class QueueService:
             job.updated_at = datetime.utcnow()
             session.commit()
             logger.info(f"Job {job_id} resumed")
+            
+            # Publish SSE event
+            asyncio.create_task(
+                queue_sse_manager.publish_job_update(job.session_id, job.to_dict())
+            )
+            
             return True
 
     def update_priority(self, job_id: str, priority: int) -> bool:
@@ -271,6 +380,12 @@ class QueueService:
             job.priority = max(1, min(10, priority))
             job.updated_at = datetime.utcnow()
             session.commit()
+            
+            # Publish SSE event
+            asyncio.create_task(
+                queue_sse_manager.publish_job_update(job.session_id, job.to_dict())
+            )
+            
             return True
 
     # ========== Cleanup ==========
@@ -330,6 +445,32 @@ class QueueService:
                 ).count(),
                 "cancelled": session.query(Job).filter(
                     and_(Job.session_id == session_id, Job.status == JobStatus.CANCELLED)
+                ).count(),
+            }
+            stats["total_active"] = stats["pending"] + stats["running"] + stats["paused"]
+            return stats
+
+    def get_stats_for_user(self, user_id: str) -> dict[str, int]:
+        """Get job statistics for a user across all sessions."""
+        with get_session() as session:
+            stats = {
+                "pending": session.query(Job).filter(
+                    and_(Job.user_id == user_id, Job.status == JobStatus.PENDING)
+                ).count(),
+                "running": session.query(Job).filter(
+                    and_(Job.user_id == user_id, Job.status == JobStatus.RUNNING)
+                ).count(),
+                "paused": session.query(Job).filter(
+                    and_(Job.user_id == user_id, Job.status == JobStatus.PAUSED)
+                ).count(),
+                "completed": session.query(Job).filter(
+                    and_(Job.user_id == user_id, Job.status == JobStatus.COMPLETED)
+                ).count(),
+                "failed": session.query(Job).filter(
+                    and_(Job.user_id == user_id, Job.status == JobStatus.FAILED)
+                ).count(),
+                "cancelled": session.query(Job).filter(
+                    and_(Job.user_id == user_id, Job.status == JobStatus.CANCELLED)
                 ).count(),
             }
             stats["total_active"] = stats["pending"] + stats["running"] + stats["paused"]

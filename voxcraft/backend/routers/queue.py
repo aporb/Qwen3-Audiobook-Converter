@@ -7,9 +7,13 @@ from typing import Any, Optional
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field
 
+from sse_starlette.sse import EventSourceResponse
+
 from backend.models.queue import Job, JobStatus, JobType
 from backend.services.queue_service import queue_service
+from backend.services.user_service import user_service
 from backend.utils.job_runner import job_runner
+from backend.utils.queue_sse import queue_sse_manager, create_sse_response
 
 router = APIRouter(prefix="/api/queue", tags=["Queue"])
 
@@ -339,3 +343,138 @@ async def delete_job(request: Request, job_id: str) -> dict:
     # Mark as cancelled (effectively deletes it from active view)
     queue_service.mark_cancelled(job_id)
     return {"success": True, "message": "Job deleted"}
+
+
+# ========== SSE Endpoints ==========
+
+@router.get("/stream")
+async def stream_updates(request: Request):
+    """SSE endpoint for real-time job updates."""
+    session_id = get_session_id(request)
+    return create_sse_response(session_id)
+
+
+# ========== User Management Endpoints ==========
+
+@router.post("/user/register")
+async def register_user(request: Request, name: Optional[str] = None, email: Optional[str] = None) -> dict:
+    """Register a new user or get existing user for this session."""
+    session_id = get_session_id(request)
+    
+    # Create or get user
+    user = user_service.get_or_create_user(email=email, name=name)
+    
+    # Link session to user
+    device_info = request.headers.get("User-Agent", "Unknown")
+    user_service.link_session_to_user(session_id, user.id, device_info)
+    
+    return {
+        "success": True,
+        "user": user.to_dict(),
+        "api_token": user.api_token,
+    }
+
+
+@router.get("/user/me")
+async def get_current_user(request: Request) -> dict:
+    """Get current user info."""
+    session_id = get_session_id(request)
+    
+    user = user_service.get_user_for_session(session_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="No user associated with this session")
+    
+    return {
+        "user": user.to_dict(),
+        "sessions": [s.to_dict() for s in user_service.get_user_sessions(user.id)],
+    }
+
+
+@router.post("/user/jobs")
+async def get_user_jobs(
+    request: Request,
+    status: Optional[str] = None,
+    limit: int = 100,
+    offset: int = 0,
+) -> dict:
+    """Get all jobs for the current user across all sessions."""
+    session_id = get_session_id(request)
+    
+    user = user_service.get_user_for_session(session_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="No user associated with this session")
+    
+    # Parse status filter
+    status_filter = None
+    if status:
+        try:
+            status_filter = JobStatus(status)
+        except ValueError:
+            raise HTTPException(status_code=400, detail=f"Invalid status: {status}")
+    
+    jobs = queue_service.get_jobs_by_user(
+        user_id=user.id,
+        status=status_filter,
+        limit=limit,
+        offset=offset,
+    )
+    
+    return {
+        "jobs": [job.to_dict() for job in jobs],
+        "total": len(jobs),
+    }
+
+
+# ========== Shared Session Endpoints ==========
+
+@router.post("/share/create")
+async def create_shared_session(request: Request, name: str = "Shared Queue") -> dict:
+    """Create a new shared session."""
+    session_id = get_session_id(request)
+    
+    user = user_service.get_user_for_session(session_id)
+    if not user:
+        raise HTTPException(status_code=400, detail="Must be logged in to create shared sessions")
+    
+    shared = user_service.create_shared_session(user.id, name)
+    
+    return {
+        "success": True,
+        "shared_session": shared.to_dict(),
+        "share_token": shared.share_token,
+    }
+
+
+@router.post("/share/join/{share_token}")
+async def join_shared_session(request: Request, share_token: str) -> dict:
+    """Join a shared session using a share token."""
+    session_id = get_session_id(request)
+    
+    user = user_service.get_user_for_session(session_id)
+    if not user:
+        raise HTTPException(status_code=400, detail="Must be logged in to join shared sessions")
+    
+    shared = user_service.join_shared_session(share_token, user.id)
+    if not shared:
+        raise HTTPException(status_code=404, detail="Invalid or expired share token")
+    
+    return {
+        "success": True,
+        "shared_session": shared.to_dict(),
+    }
+
+
+@router.get("/share/list")
+async def list_shared_sessions(request: Request) -> dict:
+    """List all shared sessions the user is a member of."""
+    session_id = get_session_id(request)
+    
+    user = user_service.get_user_for_session(session_id)
+    if not user:
+        return {"shared_sessions": []}
+    
+    shared_sessions = user_service.get_shared_sessions_for_user(user.id)
+    
+    return {
+        "shared_sessions": [s.to_dict() for s in shared_sessions],
+    }
