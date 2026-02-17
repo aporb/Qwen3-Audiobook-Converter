@@ -96,9 +96,12 @@ npm install
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/api/convert` | POST | Upload and convert document |
-| `/api/status/{job_id}` | GET | Check conversion progress |
-| `/api/download/{job_id}` | GET | Download completed audiobook |
+| `/api/tts/convert` | POST | Convert text to audio |
+| `/api/books/convert` | POST | Upload and convert book |
+| `/api/books/status/{job_id}` | GET | Check conversion progress |
+| `/api/books/download/{job_id}` | GET | Download completed audiobook |
+| `/api/url-reader/fetch` | POST | Fetch and extract URL content |
+| `/api/url-reader/convert` | POST | Convert URL content to audio |
 | `/api/voices` | GET | List available voices |
 
 ## Configuration
@@ -119,8 +122,8 @@ environment:
 Create `.env` in `frontend/`:
 
 ```env
-REACT_APP_API_URL=http://localhost:8000
-REACT_APP_WS_URL=ws://localhost:8000/ws
+VITE_API_URL=http://localhost:8000
+VITE_WS_URL=ws://localhost:8000/ws
 ```
 
 ## Development

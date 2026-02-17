@@ -17,8 +17,6 @@ This repository contains **4 distinct applications** for converting text to audi
 | **TTS Reader** | Go | OpenAI TTS | Simple CLI conversions |
 | **VoxCraft** | Python/JS | MLX TTS | Full-stack web interface |
 
-No it's not broken, it's a raw mp3 file download it and play it, you can't embedded audio in a readme.md GitHub whenthe sample is on GitHub
-
 ## 🚀 Quick Start
 
 Choose your tool based on your needs:
@@ -32,7 +30,7 @@ pip install -r requirements.txt
 cp your_book.pdf book_to_convert/
 
 # Run the converter
-python audiobook_converter.py
+python src/audiobook_converter.py
 ```
 **Output:** `audiobooks/your_book.mp3`
 
@@ -86,7 +84,7 @@ Qwen3-Audiobook-Converter/
 ├── 📄 docs/                 # Documentation
 │   ├── QUICKSTART.md        # Quick start guide
 │   ├── QWEN3_GUIDE.md       # Qwen3 converter docs
-│   └── API_REFERENCE.md     # API documentation
+│   └── QWEN3_GUIDE.md       # Qwen3 converter guide
 │
 ├── ⚙️  config/              # Configuration files
 │   ├── chapters.yaml        # Chapter definitions
