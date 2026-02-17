@@ -184,7 +184,6 @@ export function URLReaderPage() {
               onEdit={handleEditContent}
               onModeChange={handleModeChange}
               selectedMode={mode}
-              isEditing={Boolean(editedContent)}
             />
           </GlassPanel>
 

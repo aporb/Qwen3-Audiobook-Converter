@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { clsx } from "clsx";
-import { Button } from "@/components/shared/Button";
 import type { URLContent } from "@/stores/useURLReaderStore";
 
 interface ContentPreviewProps {
@@ -8,7 +7,6 @@ interface ContentPreviewProps {
   onEdit?: (content: string) => void;
   onModeChange?: (mode: "full_article" | "summary_insights") => void;
   selectedMode: "full_article" | "summary_insights";
-  isEditing?: boolean;
 }
 
 export function ContentPreview({
@@ -16,7 +14,6 @@ export function ContentPreview({
   onEdit,
   onModeChange,
   selectedMode,
-  isEditing = false,
 }: ContentPreviewProps) {
   const [editedContent, setEditedContent] = useState(content.content);
   const [isEditMode, setIsEditMode] = useState(false);
