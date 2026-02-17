@@ -1,0 +1,29 @@
+# TEST CONFIG - Only intro, title, foreword, introduction
+# Run with: python convert_audiobook.py --epub "book_to_convert/The_Ismaili_Assassins_A_History_of_Medieval_Murder.epub" --voice "sample/sample_amyn_short.wav" --config chapters_test.yaml
+
+intro_text: "This audiobook is read by A I."
+title_announcement: "The Ismaili Assassins, by James Waterson."
+outro_text: null  # No outro for test
+
+chapters:
+  include:
+    - foreword
+    - introduction
+
+conversion:
+  announce_chapters: true
+  chapter_pause: 2.5
+  chunk_size: 1500
+
+text_cleaning:
+  fix_spaced_capitals: true
+  remove_footnotes: true
+  normalize_special_chars: true
+
+output:
+  format: m4b
+  bitrate: 128k
+  embed_cover: true
+
+memory:
+  clear_cache_per_chapter: true

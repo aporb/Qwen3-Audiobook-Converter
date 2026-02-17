@@ -1,0 +1,44 @@
+# ============================================================
+# VoiceDesign Config: American Male - TEST (intro + foreword only)
+# ============================================================
+# Quick test before full conversion
+#
+# Run with:
+#   python convert_audiobook_voicedesign.py --epub "book_to_convert/The_Ismaili_Assassins_A_History_of_Medieval_Murder.epub" --config voicedesign_american_male_test.yaml
+
+intro_text: "This audiobook is read by A I."
+title_announcement: "The Ismaili Assassins, by James Waterson."
+outro_text: null  # Skip outro for test
+
+voice:
+  slug: american_male_test
+  language: English
+  instruct: >
+    Adult American male, baritone voice, professional audiobook narrator.
+    Clear enunciation with natural American accent. Calm, authoritative,
+    and engaging tone suitable for historical non-fiction. Natural pacing
+    with appropriate pauses for emphasis. Confident delivery without being
+    overly dramatic. Warm but scholarly.
+
+chapters:
+  include:
+    - foreword
+    - introduction
+
+conversion:
+  announce_chapters: true
+  chapter_pause: 2.5
+  chunk_size: 1500
+
+text_cleaning:
+  fix_spaced_capitals: true
+  remove_footnotes: true
+  normalize_special_chars: true
+
+output:
+  format: m4b
+  bitrate: 128k
+  embed_cover: true
+
+memory:
+  clear_cache_per_chapter: true

@@ -1,0 +1,66 @@
+# ============================================================
+# Chapter Configuration for: The Ismaili Assassins
+# ============================================================
+
+# INTRO/OUTRO TEXT
+# -----------------
+# These are spoken at the beginning and end of the audiobook
+intro_text: "This audiobook is read by A I."
+title_announcement: "The Ismaili Assassins, by James Waterson."
+outro_text: "Thank you. We hope you have enjoyed this audiobook."
+
+chapters:
+  # Include ONLY these chapters in this exact order
+  include:
+    - foreword
+    - introduction
+    - chapter01
+    - chapter02
+    - chapter03
+    - chapter04
+    - chapter05
+    - chapter06
+    - chapter07
+    - chapter08
+    - chapter09
+    - further
+
+  # These are excluded (redundant when include is specified, but explicit)
+  exclude:
+    - frontcoverImage
+    - fm01
+    - title
+    - copyrightPage
+    - contents
+    - mapsandillus
+    - acknowledgements
+    - timeline
+    - genealogical
+    - transliteration
+    - maps
+    - maps-1
+    - maps-2
+    - notes
+
+conversion:
+  announce_chapters: true
+  chapter_pause: 2.5
+  chunk_size: 1500
+  min_chunk_size: 200
+  max_retries: 3
+  retry_delay: 5
+
+text_cleaning:
+  fix_spaced_capitals: true
+  remove_footnotes: true
+  normalize_special_chars: true
+
+output:
+  format: m4b
+  bitrate: 128k
+  embed_cover: true
+
+memory:
+  clear_cache_per_chapter: true
+  low_memory_threshold: 4.0
+  emergency_split_threshold: 2.0

@@ -1,0 +1,88 @@
+# ============================================================
+# AUDIOBOOK CONVERSION CONFIG SCHEMA
+# ============================================================
+# This file documents the config format.
+# Copy this to create your own config (e.g., my_book.yaml)
+# ============================================================
+
+# CHAPTER SELECTION
+# -----------------
+# Filter which chapters to include in the audiobook.
+# The script parses the EPUB's OPF spine and NCX table of contents.
+# Use the chapter IDs from --dry-run output to build these lists.
+
+chapters:
+  # Include ONLY these chapter IDs (if specified, overrides exclude)
+  # Use null or omit to include all chapters by default
+  include:
+    - foreword
+    - introduction
+    - chapter01
+    - chapter02
+    # ... add more as needed
+
+  # Exclude these chapter IDs (applied after include filter)
+  exclude:
+    - frontcoverImage   # Cover image page
+    - title             # Title page
+    - copyrightPage     # Copyright
+    - contents          # Table of contents
+    - notes             # Endnotes/footnotes section
+    - bibliography      # Bibliography
+    - index             # Index
+
+# CONVERSION SETTINGS
+# -------------------
+conversion:
+  # Announce chapter titles before content (TTS reads "Chapter 1: The Beginning")
+  announce_chapters: true
+
+  # Pause duration between chapters (seconds)
+  chapter_pause: 2.5
+
+  # Words per TTS chunk (larger = fewer API calls, but longer chunks may fail)
+  chunk_size: 1500
+
+  # Minimum chunk size when retrying failed chunks (words)
+  min_chunk_size: 200
+
+  # Retry configuration
+  max_retries: 3
+  retry_delay: 5  # seconds
+
+# TEXT CLEANING
+# -------------
+text_cleaning:
+  # Fix spaced capitals like "A H OUSE D IVIDED" -> "A House Divided"
+  fix_spaced_capitals: true
+
+  # Remove footnote markers (*, †, ‡, etc.)
+  remove_footnotes: true
+
+  # Normalize special characters (em-dash, curly quotes, etc.)
+  normalize_special_chars: true
+
+# OUTPUT SETTINGS
+# ---------------
+output:
+  # Output format: m4b (with chapters) or wav (lossless)
+  format: m4b
+
+  # Audio bitrate for m4b/mp3 (ignored for wav)
+  bitrate: 128k
+
+  # Embed cover art from EPUB (if available)
+  embed_cover: true
+
+# MEMORY MANAGEMENT (for Apple Silicon)
+# -------------------------------------
+memory:
+  # Clear MPS cache after each chapter
+  clear_cache_per_chapter: true
+
+  # Warn if available memory drops below this (GB)
+  low_memory_threshold: 4.0
+
+  # Emergency chunk splitting threshold (GB)
+  # If memory drops below this during generation, split current chunk
+  emergency_split_threshold: 2.0
